@@ -1,0 +1,33 @@
+node_modules
+package-lock.json
+# Ignore node_modules for both client and server
+client/node_modules/
+server/node_modules/
+# Ignore package-lock.json for both client and server
+client/package-lock.json
+server/package-lock.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

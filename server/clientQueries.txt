@@ -1,0 +1,118 @@
+-------------------
+query getAllUsers{
+  users{
+    id
+    firstname
+    lastname
+    email
+    quotes{
+      name
+    }
+  }
+}
+------------------
+query getAllQuotes{
+  quotes{
+    name
+    by{
+      id
+      firstname
+    }
+    
+  }
+}
+---------------------
+query getUserById($quoteby:ID!){
+  user(id:$quoteby){
+    firstname
+    lastname
+    quotes{
+      name
+    }
+  }
+}
+
+---------------------
+query getQuoteByUser($userid:ID!){
+  iquote(by:$userid){
+    name
+  }
+}
+------------------------
+mutation SignupUser($userNew: UserInput!) {
+  user:signupUser(userNew: $userNew) {
+    firstname
+    lastname
+    email
+    password
+  }
+}
+
+------------------
+mutation SigninUser($userSignin: UserSignInInput!) {
+  user:signinUser(userSignin: $userSignin) {
+    token
+  }
+}
+--------------------
+mutation createQuote ($name:String!){
+  quote:createQuote(name:$name)
+  
+}
+--------------------
+query getMyProfile{
+  user:myprofile{
+    firstname
+    lastname
+    email
+    quotes {
+      name
+    }
+  }
+}
+--------------------
+mutation forgotPassword($email:String!){
+  forgotPassword(email:$email)
+}
+-----------------
+mutation resetPassword($otp:String!, $newPassword: String!) {
+  resetPassword(otp: $otp, newPassword: $newPassword)
+}
+-----------------------
+mutation generateOTP($email:String!){
+  generateOTP(email:$email)
+}
+
+
+------------------------------------------
+database
+-------------------------------------------
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL
+);
+
+
+CREATE TABLE quotes (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    by INT REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE password_reset_tokens (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expiration_time TIMESTAMP NOT NULL
+);
+
+CREATE TABLE otp_tokens (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    otp VARCHAR(6) NOT NULL,
+    expiration_time TIMESTAMP NOT NULL
+);
